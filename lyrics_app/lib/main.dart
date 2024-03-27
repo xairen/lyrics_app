@@ -3,15 +3,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'song.dart';
 import 'dart:html' as html;
+import 'config_loader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //Loading env configurations
+  final config = await ConfigLoader.load('dev'); //Change here for dev and prod
+
   await Firebase.initializeApp(
       options: FirebaseOptions(
-          apiKey: "AIzaSyDLRCmhdttAPK6i_PUb_5mKna-9_0McbHU",
-          appId: "1:336859955085:web:91d3ec2e8dfd31094d47c4",
-          messagingSenderId: "336859955085",
-          projectId: "lyrics-549d3"));
+          apiKey: config['apiKey'],
+          appId: config['appId'],
+          messagingSenderId: config['messagingSenderId'],
+          projectId: config['projectId']));
   runApp(MyApp());
 }
 
