@@ -37,7 +37,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
     ProjectsPage(),
-    LyricsEditorPage(),
+    LyricsEditorPage(
+      songId: '1QEf44xlN4eF4ZTPZARi',
+    ),
     FileUploadPage(),
   ];
 
@@ -100,6 +102,10 @@ class ProjectsPage extends StatelessWidget {
 }
 
 class LyricsEditorPage extends StatefulWidget {
+  final String songId;
+
+  LyricsEditorPage({required this.songId});
+
   @override
   _LyricsEditorPageState createState() => _LyricsEditorPageState();
 }
@@ -115,10 +121,22 @@ class _LyricsEditorPageState extends State<LyricsEditorPage> {
 
   void _loadLyrics() async {
     // Load lyrics from local storage or a backend service
+    final doc = await FirebaseFirestore.instance
+        .collection('songs')
+        .doc(widget.songId)
+        .get();
+    _controller.text = doc['lyrics'] ?? '';
   }
 
   void _saveLyrics() async {
     // Save lyrics to local storage or a backend service
+    await FirebaseFirestore.instance
+        .collection('songs')
+        .doc(widget.songId)
+        .update({
+      'lyrics': _controller.text,
+    });
+    Navigator.pop(context);
   }
 
   @override
