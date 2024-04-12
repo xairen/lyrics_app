@@ -9,10 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    assets: 
-      - assets/config/dev.json
-      - assets/config/prod.json
-  firebase_core: ^2.27.0
+  firebase_core: 2.27.0
   cloud_firestore: ^4.15.8
 
 dev_dependencies:
@@ -22,3 +19,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets: 
+    - assets/config/dev.json
+    - assets/config/prod.json
